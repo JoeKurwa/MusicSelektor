@@ -48,3 +48,5 @@ Doublons_MusicSelektor_*.csv
 # Fichiers de test
 test/
 tests/
+
+MusicSelektor.exe
