@@ -111,9 +111,12 @@ if ($diffCode -eq 1) {
 }
 
 # Remote
-$remoteCode = Invoke-Git -GitExe $git -GitArgs @("remote", "get-url", "origin") -AllowFailure
-if ($remoteCode -ne 0) {
-    $normalized = if ($RepoUrl.EndsWith(".git")) { $RepoUrl } else { "$RepoUrl.git" }
+$normalized = if ($RepoUrl.EndsWith(".git")) { $RepoUrl } else { "$RepoUrl.git" }
+$remoteList = & $git remote 2>$null
+if ($LASTEXITCODE -eq 0 -and ($remoteList -contains "origin")) {
+    Invoke-Git -GitExe $git -GitArgs @("remote", "set-url", "origin", $normalized) | Out-Null
+    Write-Host "Remote origin deja present, URL mise a jour: $normalized" -ForegroundColor Yellow
+} else {
     Invoke-Git -GitExe $git -GitArgs @("remote", "add", "origin", $normalized) | Out-Null
     Write-Host "Remote origin ajoute: $normalized" -ForegroundColor Green
 }
