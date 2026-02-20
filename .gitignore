@@ -1,0 +1,50 @@
+# Fichiers générés automatiquement
+Library.json
+MusicSelektor_config.json
+CoverSearchCache.json
+AutoCoverReport.json
+.next-cover-target.txt
+MusicPlayer.startup.error.log
+MusicPlayer.startup.out.log
+MusicPlayer.startup.trace.log
+MusicSelektor.debug.log
+MusicSelektor.debug.previous.log
+MusicSelektor.network.trace.log
+MusicSelektor.network.trace.previous.log
+MusicSelektor.write-actions.log
+
+# Artefacts de rapports
+reports/
+
+# Dossier des doublons déplacés
+Doublons_MusicSelektor/
+
+# Fichiers Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.log
+*.bak
+*~
+
+# Fichiers de sauvegarde
+*.backup
+*.old
+
+# Fichiers de rapport exportés (optionnel - décommentez si vous ne voulez pas versionner les rapports)
+Doublons_MusicSelektor_*.txt
+Doublons_MusicSelektor_*.csv
+
+# Fichiers système
+.DS_Store
+.vscode/
+.idea/
+
+# Fichiers de test
+test/
+tests/

@@ -1,0 +1,131 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MusicSelektor by Joe Kurwa" Height="750" Width="1250" Background="#0F141A">
+    
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentBrush" Color="#33B5E5"/>
+        <SolidColorBrush x:Key="AccentStrongBrush" Color="#1FA3D4"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="#131C24"/>
+        <SolidColorBrush x:Key="PanelAltBrush" Color="#1B2A36"/>
+        <SolidColorBrush x:Key="BorderBrushSoft" Color="#2E5368"/>
+
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#1FA3D4"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#1FA3D4"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="White"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+
+        <Style TargetType="TreeViewItem">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PanelBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="{StaticResource AccentStrongBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentStrongBrush}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentStrongBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentStrongBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource PanelAltBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="Padding" Value="8,6,8,6"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="380"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="0" Margin="0,0,10,0">
+            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                <TextBlock Name="AlbumsPanelTitle" Text="ALBUMS &#x00C0; CORRIGER" Foreground="#6BDCFF" FontWeight="Bold" FontSize="16"/>
+                <TextBlock Name="SignatureText" Text="by Joe Kurwa" Foreground="#D7ECF7" FontSize="11" FontStyle="Italic" Margin="0,2,0,0"/>
+                <TextBlock Name="AlbumCounter" Text="Calcul..." Foreground="#BFD9E8" FontSize="12"/>
+                <DockPanel Margin="0,8,0,0">
+                    <Button Name="ClearFilterBtn" Content="X" Width="28" Height="26" Background="{StaticResource PanelAltBrush}" Foreground="White" BorderBrush="{StaticResource BorderBrushSoft}" DockPanel.Dock="Right" Margin="6,0,0,0"/>
+                    <TextBox Name="AlbumFilterBox" Height="26" Background="{StaticResource PanelBrush}" Foreground="#E8F6FC" BorderBrush="{StaticResource BorderBrushSoft}" Padding="6,3,6,3" Text=""/>
+                </DockPanel>
+                <CheckBox Name="ShowAllAlbumsToggle" Content="Afficher seulement les albums a corriger (sans pochette)" Foreground="#D7ECF7" Margin="0,8,0,0" IsThreeState="False" IsChecked="False"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                <DockPanel Margin="0,5">
+                    <Button Name="PrevTrackBtn" Content="PRECEDENT" Height="34" Background="{StaticResource PanelAltBrush}" Foreground="White" BorderBrush="{StaticResource BorderBrushSoft}" Width="96" DockPanel.Dock="Left"/>
+                    <Button Name="NextTrackBtn" Content="SUIVANT" Height="34" Background="{StaticResource PanelAltBrush}" Foreground="White" BorderBrush="{StaticResource BorderBrushSoft}" Width="90" DockPanel.Dock="Right"/>
+                    <Button Name="OpenFolderBtn" Content="LECTURE/PAUSE" Height="34" Background="{StaticResource PanelAltBrush}" Foreground="White" BorderBrush="{StaticResource BorderBrushSoft}" Margin="6,0" ToolTip="Lecture/Pause de l'album selectionne"/>
+                </DockPanel>
+                <Button Name="RefreshLibraryBtn" Content="🔄 ACTUALISER LA BIBLIOTHÈQUE" Height="34" Background="{StaticResource PanelAltBrush}" Foreground="White" BorderBrush="{StaticResource BorderBrushSoft}" Margin="0,5" ToolTip="Recharge Library.json (après un re-scan : RESCAN_SAME.bat ou SCANNER.bat)"/>
+                <Button Name="AutoCoverBtn" Content="🤖 TROUVER LES POCHETTES (AUTO - LOT)" Height="40" Background="#2E7D32" Foreground="White" Margin="0,5" FontWeight="Bold" ToolTip="Recherche automatique en masse pour toute la liste d'albums."/>
+                <Button Name="FindDuplicatesBtn" Content="🔍 CHERCHER LES DOUBLONS" Height="40" Background="#DC143C" Foreground="White" Margin="0,5" FontWeight="Bold"/>
+            </StackPanel>
+
+            <TreeView Name="FolderTreeView" Background="{StaticResource PanelBrush}" Foreground="White" BorderThickness="1" BorderBrush="{StaticResource BorderBrushSoft}"/>
+        </DockPanel>
+
+        <ListView Grid.Column="1" Name="MusicListView" Background="{StaticResource PanelBrush}" Foreground="#FFFFFF" Margin="10,0" BorderThickness="1" BorderBrush="{StaticResource BorderBrushSoft}" Focusable="True" SelectionMode="Extended" FontSize="13">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="IsHitTestVisible" Value="True"/>
+                    <Setter Property="Focusable" Value="True"/>
+                    <Setter Property="Foreground" Value="#FFFFFF"/>
+                    <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#7EE6FF"/>
+                            <Setter Property="Foreground" Value="#00131A"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource AccentStrongBrush}"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{StaticResource AccentStrongBrush}"/>
+                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Artiste" DisplayMemberBinding="{Binding ArtistDisplay}" Width="180"/>
+                    <GridViewColumn Header="Album" DisplayMemberBinding="{Binding AlbumDisplay}" Width="220"/>
+                    <GridViewColumn Header="Piste" DisplayMemberBinding="{Binding TrackDisplay}" Width="300"/>
+                    <GridViewColumn Header="Format" DisplayMemberBinding="{Binding FormatDisplay}" Width="90"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Border Grid.Column="2" Background="#14222D" CornerRadius="15" Padding="20">
+            <StackPanel>
+                <TextBlock Text="APER&#x00C7;U" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                <Border Width="300" Height="300" Background="#1D2B36" CornerRadius="10">
+                    <Image Name="AlbumArtImage" Stretch="UniformToFill"/>
+                </Border>
+                <TextBlock Name="CurrentTrackInfo" Foreground="#6BDCFF" TextWrapping="Wrap" Margin="0,20" FontSize="14" Height="60" TextAlignment="Center" FontWeight="Bold"/>
+                <Button Name="SearchOnlineBtn" Content="🔍 RECHERCHE MANUELLE" Background="#2EA7C9" Foreground="White" BorderBrush="#47C5E7" FontWeight="Bold" Height="50" ToolTip="Ouvre une recherche d'images pour corriger manuellement l'album selectionne."/>
+                <Button Name="ApplyCoverClipboardBtn" Content="💾 APPLIQUER COVER (PRESSE-PAPIERS)" Background="{StaticResource PanelAltBrush}" Foreground="White" BorderBrush="{StaticResource BorderBrushSoft}" FontWeight="Bold" Height="38" Margin="0,8,0,0" ToolTip="Applique la cover depuis l'URL/image presente dans le presse-papiers pour l'album selectionne."/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

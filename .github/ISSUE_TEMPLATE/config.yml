@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions générales
+    url: https://github.com/VotreNom/MusicSelektor/discussions
+    about: Pour les questions non liées à un bug ou une feature précise.
