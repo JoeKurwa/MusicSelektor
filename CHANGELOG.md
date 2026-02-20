@@ -2,6 +2,13 @@
 
 Tous les changements notables de ce projet seront documentés dans ce fichier.
 
+## [1.2.1] - 2026-02-20
+
+### Documentation
+- 📝 Ajout d'une checklist utilisateur claire dans `README.md` (section "Checklist utilisateur (TO-DO)")
+- 📝 Ajout du guide `docs/USER_TODOLIST.md` avec parcours d'utilisation pas-a-pas
+- 📝 Mise en avant de `MusicSelektor.exe` comme point d'entree recommande pour utilisateur final
+
 ## [1.2.0] - 2026-02-18
 
 ### Ajouté

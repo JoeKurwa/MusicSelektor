@@ -60,11 +60,28 @@ cd MusicSelektor
 ### Lancement / Run
 
 - `MusicSelektor.bat` - entree principale (scan + GUI)
+- `MusicSelektor.exe` - entree principale recommandee pour utilisateur final
 - `SCANNER.bat` - scan uniquement
 - `CLEANUP_WORKSPACE.bat` - rangement des artefacts generes
 - `RUN_REGRESSION_CHECKS.bat` - verifications anti-regression
 
 Au premier lancement, selectionnez votre dossier racine de musique.
+
+### Checklist utilisateur (TO-DO)
+
+Suivre cette checklist dans l'ordre pour utiliser MusicSelektor comme prevu:
+
+- [ ] Lancer `MusicSelektor.exe` (ou `MusicSelektor.bat`).
+- [ ] Au premier lancement, choisir le dossier racine (ex: `E:\MUSIQUES`).
+- [ ] Verifier que l'arborescence gauche affiche bien `MUSIQUES` puis les dossiers/albums.
+- [ ] Cliquer un dossier ou album, puis `LECTURE/PAUSE` pour demarrer.
+- [ ] Utiliser `SUIVANT` / `PRECEDENT` et verifier que la pochette se met a jour.
+- [ ] Trier la colonne du milieu en cliquant les en-tetes (`Artiste`, `Album`, `Piste`, `Format`).
+- [ ] Supprimer des pistes via clic droit (liste du milieu) si necessaire.
+- [ ] Ajouter des dossiers/pistes puis lancer `RESCAN_SAME.bat`, ensuite `ACTUALISER LA BIBLIOTHEQUE`.
+- [ ] Completer les pochettes manquantes (recherche manuelle / auto-cover). Voir `docs/USER_TODOLIST.md` pour le pas-a-pas detaille.
+- [ ] Lancer `FIND_DUPLICATES.bat` pour traiter les doublons si besoin.
+- [ ] Lancer `CLEANUP_WORKSPACE.bat` pour garder un workspace propre.
 
 ### Commandes directes / Direct commands
 
