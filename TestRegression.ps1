@@ -53,8 +53,9 @@ foreach ($name in $requiredFiles) {
 
 Write-Host ""
 
-# 2) Verification syntaxe PowerShell
+# 2) Verification syntaxe PowerShell + encodage
 $ps1Files = Get-ChildItem -LiteralPath $scriptDir -File -Filter "*.ps1" -ErrorAction SilentlyContinue
+$nonAsciiFileCount = 0
 foreach ($file in $ps1Files) {
     $tokens = $null
     $errors = $null
@@ -65,6 +66,27 @@ foreach ($file in $ps1Files) {
     } else {
         Add-Pass "Syntaxe OK: $($file.Name)"
     }
+
+    # Les .ps1 sont en UTF-8 sans BOM: Windows PowerShell 5.1 les lit en ANSI,
+    # donc un accent ou un emoji hors commentaire s'affiche mal a l'ecran.
+    $nonAsciiTokens = @($tokens | Where-Object { $_.Kind -ne 'Comment' -and $_.Text -match '[^\x00-\x7F]' })
+    if ($nonAsciiTokens.Count -gt 0) {
+        $nonAsciiFileCount++
+        $lines = ($nonAsciiTokens | ForEach-Object { $_.Extent.StartLineNumber } | Select-Object -Unique) -join ", "
+        Add-Failure "Caracteres non ASCII hors commentaires dans $($file.Name) (lignes $lines)"
+    }
+}
+# .bat: cmd.exe affiche les octets selon la page de code OEM, donc aucun accent non plus.
+$batFiles = Get-ChildItem -LiteralPath $scriptDir -File -Filter "*.bat" -ErrorAction SilentlyContinue
+foreach ($file in $batFiles) {
+    $bytes = [System.IO.File]::ReadAllBytes($file.FullName)
+    if (@($bytes | Where-Object { $_ -gt 127 }).Count -gt 0) {
+        $nonAsciiFileCount++
+        Add-Failure "Caracteres non ASCII dans $($file.Name)"
+    }
+}
+if ($nonAsciiFileCount -eq 0) {
+    Add-Pass "Encodage OK: aucun caractere non ASCII hors commentaires dans les .ps1, ni dans les .bat"
 }
 
 Write-Host ""
@@ -94,7 +116,7 @@ try {
         $findDupText -match 'delete-duplicates') {
         Add-Pass "Securite doublons presente (IUnderstand + blocage)"
     } else {
-        Add-Failure "Regles securite doublons incomplètes"
+        Add-Failure "Regles securite doublons incompletes"
     }
 } catch {
     Add-Failure "Lecture impossible FindDuplicates.ps1: $($_.Exception.Message)"
@@ -107,7 +129,7 @@ try {
         $normText -match 'blocked-safety') {
         Add-Pass "Securite normalisation presente (IUnderstand + blocage)"
     } else {
-        Add-Failure "Regles securite normalisation incomplètes"
+        Add-Failure "Regles securite normalisation incompletes"
     }
 } catch {
     Add-Failure "Lecture impossible NormalizeTrackNames.ps1: $($_.Exception.Message)"

@@ -92,7 +92,7 @@ function Get-JsonArraySafe {
 
 # Vérification de l'existence de Library.json
 if (-not (Test-Path $LibraryPath)) {
-    [System.Windows.MessageBox]::Show("Le fichier Library.json est introuvable.`nVeuillez d'abord scanner votre bibliothèque avec CreateLibrary.ps1", "Erreur", "OK", "Error")
+    [System.Windows.MessageBox]::Show("Le fichier Library.json est introuvable.`nVeuillez d'abord scanner votre bibliotheque avec CreateLibrary.ps1", "Erreur", "OK", "Error")
     exit
 }
 
@@ -495,8 +495,8 @@ $DeleteBtn.Add_Click({
     }
 
     $Result = [System.Windows.MessageBox]::Show(
-        "ATTENTION : Cette action va supprimer les fichiers dupliqués.`n`n" +
-        "Pour chaque groupe de doublons, tous les fichiers SAUF LE PREMIER seront supprimés.`n`n" +
+        "ATTENTION : Cette action va supprimer les fichiers dupliques.`n`n" +
+        "Pour chaque groupe de doublons, tous les fichiers SAUF LE PREMIER seront supprimes.`n`n" +
         "Voulez-vous vraiment continuer ?",
         "Confirmation de suppression",
         "YesNo",
@@ -538,18 +538,18 @@ $DeleteBtn.Add_Click({
                         }
                     }
                 } catch {
-                    Write-Warning "Erreur lors de la vérification : $FileToDelete - $($_.Exception.Message)"
+                    Write-Warning "Erreur lors de la verification : $FileToDelete - $($_.Exception.Message)"
                 }
             }
         }
         
         $DeletedGB = [math]::Round($DeletedSize / 1GB, 2)
         [System.Windows.MessageBox]::Show(
-            "Suppression terminée !`n`n" +
-            "Fichiers supprimés : $DeletedCount`n" +
-            "Espace libéré : $DeletedGB GB`n`n" +
-            "Pensez à relancer le scan pour mettre à jour la bibliothèque.",
-            "Suppression terminée",
+            "Suppression terminee !`n`n" +
+            "Fichiers supprimes : $DeletedCount`n" +
+            "Espace libere : $DeletedGB GB`n`n" +
+            "Pensez a relancer le scan pour mettre a jour la bibliotheque.",
+            "Suppression terminee",
             "OK",
             "Information"
         )
