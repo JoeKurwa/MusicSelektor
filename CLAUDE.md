@@ -24,7 +24,7 @@ Application Windows uniquement : Windows PowerShell 5.1 + WPF/WinForms, sans bui
 powershell -NoProfile -ExecutionPolicy Bypass -File .\TestRegression.ps1 -NoCleanupSmoke
 ```
 
-- Pas de framework de test : `TestRegression.ps1` est un script unique (fichiers requis, syntaxe de chaque `.ps1`, chargement du XAML, garde-fous de sécurité, config release, smoke test du nettoyage, regex de non-régression UI). On ne peut pas y lancer un contrôle isolé ; `-NoCleanupSmoke` saute le smoke test, qui déplace réellement des fichiers vers `reports/`.
+- Pas de framework de test : `TestRegression.ps1` est un script unique (fichiers requis, syntaxe et encodage de chaque `.ps1`, chargement du XAML, garde-fous de sécurité, config release, smoke test du nettoyage, regex de non-régression UI). On ne peut pas y lancer un contrôle isolé ; `-NoCleanupSmoke` saute le smoke test, qui déplace réellement des fichiers vers `reports/`.
 - Il exige `MusicSelektor_config.json`, ignoré par git et créé par le premier scan : sur un clone neuf, il échoue tant qu'aucun scan n'a tourné. En release, `DebugMode` et `NetworkTraceEnabled` doivent valoir `false` (sinon warnings), alors que `CreateLibrary.ps1` écrit `DebugMode: true` quand la clé est absente.
 
 ## Environnement cloud (claude.ai/code, conteneur Linux)
@@ -62,7 +62,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\TestRegression.ps1 -NoClea
 ## Conventions et pièges
 
 - **PowerShell 5.1 strict** : rien de propre à PowerShell 7 (`? :`, `??`, `?.`, `&&`/`||`, `-Parallel`). L'app tourne sous `powershell.exe`.
-- **Encodage** : les `.ps1` sont en UTF-8 **sans BOM**, que PowerShell 5.1 lit en ANSI. Aucun accent ni emoji dans les chaînes d'un `.ps1` : écrire le français sans accents comme le reste du code, ou utiliser `[char]0x00E9` (cf. `FindDuplicates.ps1`). Le XAML est lu en UTF-8, donc accents et emoji y fonctionnent. Pas d'accents non plus dans les `.bat` (ou bien `chcp 65001`, comme `FIND_DUPLICATES.bat`).
+- **Encodage** : les `.ps1` sont en UTF-8 **sans BOM**, que PowerShell 5.1 lit en ANSI. Aucun caractère non ASCII hors commentaires dans un `.ps1`, et `TestRegression.ps1` le refuse : écrire le français sans accents comme le reste du code, ou utiliser `[char]0x00E9` (cf. `FindDuplicates.ps1`). Pour un emoji, utiliser `[char]::ConvertFromUtf32(0x1F916)` (cf. `MusicPlayer.ps1`). Le XAML est lu en UTF-8, donc accents et emoji y fonctionnent. Aucun caractère non ASCII non plus dans les `.bat`, que `cmd.exe` affiche selon la page de code OEM ; `TestRegression.ps1` le vérifie aussi.
 - Fins de ligne CRLF pour `.ps1`/`.bat`/`.xaml`, LF pour `.md` (`.gitattributes`) ; indentation de 4 espaces.
 - Chemins de musique : toujours `-LiteralPath`, car les noms contiennent souvent `[ ]`. Les scripts trouvent leurs fichiers depuis leur propre dossier (`Split-Path -Parent $MyInvocation.MyCommand.Definition`) : ils doivent rester à la racine.
 - Fichiers générés, ignorés par git : `Library.json`, `MusicSelektor_config.json`, `CoverSearchCache.json`, `AutoCoverReport.json`, `*.log`, `reports/`. Exception : `LastAutoCoverTiming.json` est versionné mais réécrit par l'app après chaque recherche auto ; ne pas committer ces changements.

@@ -233,7 +233,7 @@ if (-not [string]::IsNullOrWhiteSpace($Url)) {
     }
 }
 if ([string]::IsNullOrWhiteSpace($Url)) {
-    Write-Host "Presse-papiers vide. Colle l'URL de l'image puis Entrée." -ForegroundColor Yellow
+    Write-Host "Presse-papiers vide. Colle l'URL de l'image puis Entree." -ForegroundColor Yellow
     $Url = Read-Host "URL image"
 }
 if ([string]::IsNullOrWhiteSpace($Url)) {

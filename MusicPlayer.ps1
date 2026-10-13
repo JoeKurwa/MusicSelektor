@@ -1924,7 +1924,7 @@ if ($AutoCoverBtn) {
                 $AlbumCounter.Text += "`nDerniere recherche auto: $elapsedText"
             }
             if ($AutoCoverBtn) {
-                $AutoCoverBtn.Content = "🤖 TROUVER LES POCHETTES (AUTO - LOT)"
+                $AutoCoverBtn.Content = ([char]::ConvertFromUtf32(0x1F916) + " TROUVER LES POCHETTES (AUTO - LOT)")
                 $AutoCoverBtn.ToolTip = "Recherche automatique en masse pour toute la liste d'albums. Dernier temps: $elapsedText"
             }
             Write-DebugLog "AutoCover done: downloaded=$downloaded alreadyOk=$alreadyOk notFound=$notFound failed=$failed remaining=$remainingToFix"

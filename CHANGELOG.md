@@ -2,6 +2,17 @@
 
 Tous les changements notables de ce projet seront documentés dans ce fichier.
 
+## [Non publié]
+
+### Corrigé
+- 🐛 Accents et emoji mal affichés sous Windows PowerShell 5.1 (« bibliothÃ¨que ») : messages de suppression de `FindDuplicates.ps1`, bouton `TROUVER LES POCHETTES (AUTO - LOT)` après une recherche auto, invite de `SaveCoverFromClipboardUrl.ps1` et textes de `RESCAN_SAME.bat`
+
+### Amélioré
+- ✨ `TestRegression.ps1` refuse tout caractère non ASCII hors commentaires dans les `.ps1`, et tout caractère non ASCII dans les `.bat`, pour éviter que le problème revienne
+
+### Documentation
+- 📝 Ajout de `CLAUDE.md` : consignes de travail et architecture pour Claude Code
+
 ## [1.2.1] - 2026-02-20
 
 ### Documentation

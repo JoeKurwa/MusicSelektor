@@ -1,6 +1,6 @@
 @echo off
 setlocal EnableExtensions
-title MusicSelektor by JoeKurwa - Re-scan (même dossier)
+title MusicSelektor by JoeKurwa - Re-scan (meme dossier)
 cd /d "%~dp0"
 
 if not exist "CreateLibrary.ps1" (
@@ -10,7 +10,7 @@ if not exist "CreateLibrary.ps1" (
 )
 
 echo ========================================
-echo   RE-SCAN DU MÊME DOSSIER
+echo   RE-SCAN DU MEME DOSSIER
 echo ========================================
 echo.
 echo Re-scan du dossier racine enregistre (sans fenetre de selection).
@@ -23,7 +23,7 @@ set "EXIT_CODE=%ERRORLEVEL%"
 echo.
 if "%EXIT_CODE%"=="0" (
     echo [OK] Re-scan termine. Actualisez la bibliotheque dans le lecteur
-    echo      ^(bouton "ACTUALISER LA BIBLIOTHÈQUE"^) ou relancez MusicSelektor.bat.
+    echo      ^(bouton "ACTUALISER LA BIBLIOTHEQUE"^) ou relancez MusicSelektor.bat.
 ) else (
     echo [ERREUR] Le re-scan a echoue ^(code: %EXIT_CODE%^).
     echo Si aucun dossier n'a encore ete enregistre, lancez SCANNER.bat une premiere fois.
